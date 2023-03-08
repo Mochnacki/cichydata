@@ -1,0 +1,37 @@
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>Load Google Sheets cell text into HTML div</title>
+      <script src="https://apis.google.com/js/api.js"></script>
+        </head>
+
+  <body>
+    <div id="gcena"></div>
+    <div id="gstatus"></div>
+    <div id="gpow"></div>
+    <div id="gmetr"></div>
+    <script>
+        // Load the Google Sheets API library
+        gapi.load('client', function() {
+          // Initialize the API client with API key
+          gapi.client.init({
+            apiKey: 'YAIzaSyBs0NTjv_fER3lLDLYdjPGyMv_N47YkMcg',
+          }).then(function() {
+            // Retrieve the cell text
+            return gapi.client.sheets.spreadsheets.values.get({
+              spreadsheetId: '1ZUGbzxkSf64ZbVF3-0U3_6ufz1GiAJjqzm4RgPMwe9o',
+              ranges: ['cichydata!B2', 'cichydata!C2', 'cichydata!D2', 'cichydata!E2'],
+          });
+        }).then(function(response) {
+          // Update the HTML divs with the retrieved cell text
+          document.getElementById('gcena').innerHTML = response.result.valueRanges[0].values[0][0];
+          document.getElementById('gstatus').innerHTML = response.result.valueRanges[1].values[0][0];
+          document.getElementById('gpow').innerHTML = response.result.valueRanges[2].values[0][0];
+          document.getElementById('gmetr').innerHTML = response.result.valueRanges[3].values[0][0];
+        }, function(reason) {
+          console.error('Error: ' + reason.result.error.message);
+        });
+      });
+    </script>
+  </body>
+</html>
